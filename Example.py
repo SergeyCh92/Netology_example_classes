@@ -129,7 +129,6 @@ def calc_grades_student (list_student, course):
 
 def calc_grades_lecturers (list_lecturers, course):
     grade = []
-    val = ''
     for i in list_lecturers:
         if course in i.lecturer_grades:
             for k in i.lecturer_grades:
@@ -142,6 +141,7 @@ def calc_grades_lecturers (list_lecturers, course):
             return
     grade = sum(grade) / len(grade)
     print(f'Средний балл лекторов за курс {course} - {grade}!')
+
 
 olga = Student('olga', 'koroleva', 'w')
 semen = Student('semen', 'ivanov', 'm')
@@ -182,5 +182,10 @@ semen < olga
 
 print(semen)
 print(olga)
+print()
+print(igor)
+print()
+print(anna)
+print()
 calc_grades_student([semen, olga], 'основы python')
 calc_grades_lecturers([igor, olesya], 'git')
