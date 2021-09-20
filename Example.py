@@ -99,7 +99,7 @@ class Lecturer(Mentor):
 
 class Reviewer(Mentor):
     def rate_hw(self, student, course, grade):
-        if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress:
+        if isinstance(student, Student) and course in self.courses_attached and course in student.courses_in_progress or course in student.finished_courses:
             if course in student.grades:
                 student.grades[course] += [grade]
             else:
@@ -111,6 +111,37 @@ class Reviewer(Mentor):
         data = f'Имя: {self.name}\nФамилия: {self.surname}'
         return data
 
+def calc_grades_student (list_student, course):
+    grade = []
+    val = ''
+    for i in list_student:
+        if course in i.grades:
+            for k in i.grades:
+                if k == course:
+                    val = sum(i.grades[k]) / len(i.grades[k])
+                    grade.append(val)
+                    break
+        else:
+            print(f'Студент {i} пока не имеет ни одной оценки за курс {course}!')
+            return
+    grade = sum(grade) / len(grade)
+    print(f'Средний балл студентов за курс {course} - {grade}!')
+
+def calc_grades_lecturers (list_lecturers, course):
+    grade = []
+    val = ''
+    for i in list_lecturers:
+        if course in i.lecturer_grades:
+            for k in i.lecturer_grades:
+                if k == course:
+                    val = sum(i.lecturer_grades[k]) / len(i.lecturer_grades[k])
+                    grade.append(val)
+                    break
+        else:
+            print(f'Лектор {i} пока не имеет ни одной оценки за курс {course}!')
+            return
+    grade = sum(grade) / len(grade)
+    print(f'Средний балл лекторов за курс {course} - {grade}!')
 
 olga = Student('olga', 'koroleva', 'w')
 semen = Student('semen', 'ivanov', 'm')
@@ -141,8 +172,15 @@ semen.evaluation(olesya, 'git', 1)
 
 denis.rate_hw(olga, 'git', 7)
 denis.rate_hw(olga, 'git', 2)
+denis.rate_hw(olga, 'основы python', 6)
 denis.rate_hw(semen, 'основы python', 7)
 denis.rate_hw(semen, 'основы python', 10)
-anna.rate_hw(semen, 'основы python', 6)
+anna.rate_hw(semen, 'git', 6)
 
-print((semen))
+igor > olesya
+semen < olga
+
+print(semen)
+print(olga)
+calc_grades_student([semen, olga], 'основы python')
+calc_grades_lecturers([igor, olesya], 'git')
